@@ -1,6 +1,10 @@
 #include <iostream>
+#include <string>
+
 #include "product.h"
 #include "productservice.h"
+
+using namespace std;
 
 class Console {
 public:
