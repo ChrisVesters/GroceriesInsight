@@ -7,6 +7,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 # Compiler flags
 set (CMAKE_CXX_STANDARD 11)
 
+# Add Libaries
+add_subdirectory(lib/googletest)
 
 # Source Files
 set(source_files
