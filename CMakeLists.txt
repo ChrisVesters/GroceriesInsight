@@ -25,10 +25,14 @@ add_executable (GroceriesInsight ${main} ${source_files})
 include_directories(${GTEST_INCLUDE_DIRS})
 
 set(test_files
+	lib/fakeit/fakeit.hpp
 	test/producttest.cpp
 	test/productservicetest.cpp
 )
 
 add_executable(GroceriesInsightTest ${source_files} ${test_files})
-target_include_directories(GroceriesInsightTest PUBLIC src lib/googletest/googletest/include)
+target_include_directories(GroceriesInsightTest PUBLIC 
+	src
+	lib
+	lib/googletest/googletest/include)
 target_link_libraries(GroceriesInsightTest gtest_main)
