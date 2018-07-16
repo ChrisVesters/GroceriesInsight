@@ -33,8 +33,6 @@ public:
 		int barcode = readInteger();
 		
 		const Product product(barcode, brandName, productName);
-		// TODO: catch exception in case not unique!
-		// TODO: idealy we would check for this even before trying to add the product!
 		ProductService::addProduct(product);
 	}
 	
@@ -46,7 +44,6 @@ public:
 		int barcode = readInteger();
 		cout << endl;
 		
-		// TODO: why can't I make this const?
 		const Product product = ProductService::getProduct(barcode);
 		cout << "Brand Name:\t" << product.getBrand() << endl;
 		cout << "Product Name:\t" << product.getName() << endl;
@@ -75,7 +72,6 @@ private:
 	}
 
 	void clearScreen() {
-		// TODO: system specific!!!
 		// CSI[2J clears screen, CSI[H moves the cursor to top-left corner
 		cout << "\x1B[2J\x1B[H";
 	}
