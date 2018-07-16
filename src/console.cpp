@@ -47,7 +47,7 @@ public:
 		cout << endl;
 		
 		// TODO: why can't I make this const?
-		Product product = ProductService::getProduct(barcode);
+		const Product product = ProductService::getProduct(barcode);
 		cout << "Brand Name:\t" << product.getBrand() << endl;
 		cout << "Product Name:\t" << product.getName() << endl;
 		

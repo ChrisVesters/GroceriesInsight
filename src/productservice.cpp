@@ -11,7 +11,7 @@ void ProductService::addProduct(Product product) {
 }
 	
 bool ProductService::existsProduct(const int barcode) {
-	for (Product product : products) {
+	for (const Product product : products) {
 		if (product.getBarcode() == barcode) {
 			return true;
 		}
@@ -21,11 +21,11 @@ bool ProductService::existsProduct(const int barcode) {
 }
 	
 Product ProductService::getProduct(const int barcode) {
-	for (Product product : products) {
+	for (const Product product : products) {
 		if (product.getBarcode() == barcode) {
 			return product;
 		}
 	}
 	
-	throw 0;
+	throw -1;
 }
