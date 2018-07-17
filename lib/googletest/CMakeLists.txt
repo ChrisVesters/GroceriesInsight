@@ -16,10 +16,6 @@ option(
   "Use shared (DLL) run-time lib even when Google Test is built as static lib."
   OFF)
 
-option(gtest_build_tests "Build all of gtest's own tests." OFF)
-option(gtest_build_samples "Build gtest's sample programs." OFF)
-option(gtest_disable_pthreads "Disable uses of pthreads in gtest." OFF)
-
 option(
   gtest_hide_internal_symbols
   "Build gtest with internal symbols hidden in shared libraries."
@@ -103,28 +99,4 @@ target_link_libraries(gtest_main gtest)
 if (DEFINED CMAKE_VERSION AND NOT "${CMAKE_VERSION}" VERSION_LESS "2.8.11")
   target_include_directories(gtest      SYSTEM INTERFACE "${gtest_SOURCE_DIR}/include")
   target_include_directories(gtest_main SYSTEM INTERFACE "${gtest_SOURCE_DIR}/include")
-endif()
-
-########################################################################
-#
-# Install rules
-if(INSTALL_GTEST)
-  install(TARGETS gtest gtest_main
-    RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
-    ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-    LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}")
-  install(DIRECTORY "${gtest_SOURCE_DIR}/include/gtest"
-    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
-
-  # configure and install pkgconfig files
-  # configure_file(
-    # cmake/gtest.pc.in
-    # "${CMAKE_BINARY_DIR}/gtest.pc"
-    # @ONLY)
-  # configure_file(
-    # cmake/gtest_main.pc.in
-    # "${CMAKE_BINARY_DIR}/gtest_main.pc"
-    # @ONLY)
-  # install(FILES "${CMAKE_BINARY_DIR}/gtest.pc" "${CMAKE_BINARY_DIR}/gtest_main.pc"
-    # DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig")
 endif()
