@@ -2,4 +2,8 @@ sudo: false
 language: cpp
 compiler: gcc
 
+branches:
+	only:
+		- master
+
 script: cmake . && make && ./bin/GroceriesInsightTest
