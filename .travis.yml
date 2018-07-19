@@ -3,7 +3,7 @@ language: cpp
 compiler: gcc
 
 branches:
-	only:
-		- master
+    only:
+        - master
 
 script: cmake . && make && ./bin/GroceriesInsightTest
