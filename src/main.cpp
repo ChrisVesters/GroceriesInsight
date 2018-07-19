@@ -23,6 +23,12 @@ public:
 				case 2:
 					console.showSearchProductPage();
 					break;
+				case 3:
+					console.showAddTransactionPage();
+					break;
+				case 4:
+					console.showAllTransactionsPage();
+					break;
 				default:
 					break;
 			}
