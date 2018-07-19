@@ -3,6 +3,8 @@
 
 #include "product.h"
 #include "productservice.h"
+#include "transaction.h"
+#include "transactionservice.h"
 
 using namespace std;
 
@@ -14,6 +16,8 @@ public:
 		
 		cout << "1. Add Product" << endl;
 		cout << "2. Search Product" << endl;
+		cout << "3. Add Transaction" << endl;
+		cout << "4. List All Transactions" << endl;
 		cout << "-1. Exit" << endl;
 
 		cout << endl << "Enter your choice: ";
@@ -51,7 +55,58 @@ public:
 		cout << endl << "Press any key to continue";
 		waitForKey();
 	}
+	
+	void showAddTransactionPage() {
+		clearScreen();
+		printHeading();
 		
+		cout << "Store Name:\t\t";
+		string storeName = readString();
+		
+		cout << "Date" << endl;
+		cout << "\tDay:\t";
+		int day = readInteger();
+		cout << "\tMonth:\t" ;
+		int month = readInteger();
+		cout << "\tYear:\t";
+		int year = readInteger();
+		
+		struct tm dateInfo = {};
+		dateInfo.tm_year = year - 1900;
+		dateInfo.tm_mon = month - 1;
+		dateInfo.tm_mday = day;
+		time_t date = mktime(&dateInfo);
+		
+		cout << "Product Barcode:\t";
+		Product product = ProductService::getProduct(readInteger());		
+		
+		cout << "Product Price:\t\t";
+		int price = readInteger();
+		
+		Transaction transaction(storeName, date, product, price);
+		TransactionService::addTransaction(transaction);
+	}
+	
+	void showAllTransactionsPage() {
+		clearScreen();
+		printHeading();
+		
+		cout << "Date\t\t" << "Store\t" << "\t\tProduct\t\t\t" << "Price" << endl;
+		for (const Transaction transaction : TransactionService::getAllTransactions()) {
+			const time_t date = transaction.getDate();
+			struct tm * dateInfo = localtime(&date);
+			Product product = transaction.getProduct();
+			
+			cout << dateInfo->tm_mday << "-" << (dateInfo->tm_mon + 1) << "-" << (dateInfo->tm_year + 1900) << "\t";
+			cout << transaction.getStore() << "\t\t";
+			cout << product.getBrand() << " - " << product.getName() << "\t\t";
+			cout << transaction.getPrice() << endl;
+		}
+		
+		cout << endl << "Press any key to continue";
+		waitForKey();
+	}
+	
 	
 	static const string readString() {
 		string line;

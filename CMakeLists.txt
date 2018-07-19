@@ -20,6 +20,8 @@ set(source_files
 	src/console.cpp
 	src/product.cpp
 	src/productservice.cpp
+	src/transaction.cpp
+	src/transactionservice.cpp
 )
 set(main src/main.cpp)
 
@@ -37,6 +39,8 @@ set(test_files
 	lib/fakeit/fakeit.hpp
 	test/producttest.cpp
 	test/productservicetest.cpp
+	test/transactiontest.cpp
+	test/transactionservicetest.cpp
 )
 
 add_executable(GroceriesInsightTest ${source_files} ${test_files})
