@@ -38,6 +38,7 @@ public:
 		
 		const Product product(barcode, brandName, productName);
 		ProductService::addProduct(product);
+		ProductService::save();
 	}
 	
 	void showSearchProductPage() {
