@@ -11,6 +11,9 @@ public:
 	}
 	
 	void run() {
+		ProductService::load();
+		TransactionService::load();
+		
 		int option;
 		do {
 			console.showMainMenu();

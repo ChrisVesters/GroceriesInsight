@@ -38,6 +38,7 @@ public:
 		
 		const Product product(barcode, brandName, productName);
 		ProductService::addProduct(product);
+		ProductService::save();
 	}
 	
 	void showSearchProductPage() {
@@ -85,6 +86,7 @@ public:
 		
 		Transaction transaction(storeName, date, product, price);
 		TransactionService::addTransaction(transaction);
+		TransactionService::save();
 	}
 	
 	void showAllTransactionsPage() {
