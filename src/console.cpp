@@ -86,6 +86,7 @@ public:
 		
 		Transaction transaction(storeName, date, product, price);
 		TransactionService::addTransaction(transaction);
+		TransactionService::save();
 	}
 	
 	void showAllTransactionsPage() {
