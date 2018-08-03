@@ -35,6 +35,9 @@ public:
 				case 5:
 					console.showProductHistoryPage();
 					break;
+				case 6:
+					console.showExpenditureHistoryPage();
+					break;
 				default:
 					break;
 			}
