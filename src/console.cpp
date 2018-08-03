@@ -1,10 +1,12 @@
 #include <iostream>
 #include <string>
+#include <algorithm>
 
 #include "product.h"
 #include "productservice.h"
 #include "transaction.h"
 #include "transactionservice.h"
+#include "transactioncomparator.h"
 
 using namespace std;
 
@@ -18,6 +20,7 @@ public:
 		cout << "2. Search Product" << endl;
 		cout << "3. Add Transaction" << endl;
 		cout << "4. List All Transactions" << endl;
+		cout << "5. Show Product History" << endl;
 		cout << "-1. Exit" << endl;
 
 		cout << endl << "Enter your choice: ";
@@ -53,7 +56,6 @@ public:
 		cout << "Brand Name:\t" << product.getBrand() << endl;
 		cout << "Product Name:\t" << product.getName() << endl;
 		
-		cout << endl << "Press any key to continue";
 		waitForKey();
 	}
 	
@@ -105,10 +107,68 @@ public:
 			cout << transaction.getPrice() << endl;
 		}
 		
-		cout << endl << "Press any key to continue";
 		waitForKey();
 	}
 	
+	void showProductHistoryPage() {
+		clearScreen();
+		printHeading();
+		
+		cout << "Product Barcode:\t";
+		const int barcode = readInteger();
+		cout << "Start Date (YYYY MM DD):\t";
+		const time_t startDate = readDate();
+		cout << "End Date (YYYY MM DD):\t";
+		const time_t endDate = readDate();
+		cout << "Sort By:\t";
+		const string sortKey = readString();
+		cout << endl << endl;
+		
+		vector<Transaction> allTransactions = TransactionService::getAllTransactions();
+		vector<Transaction*> filteredTransactions;
+		for (int i = 0; i < allTransactions.size(); ++i) {
+			Transaction transaction = allTransactions[i];
+			if (transaction.getProduct().getBarcode() != barcode) {
+				continue;
+			}
+			
+			if ((transaction.getDate() < startDate) || (transaction.getDate() > endDate)) {
+				continue;
+			}
+			
+			filteredTransactions.push_back(&allTransactions[i]);
+		}
+		
+		if (sortKey == "S") {
+			sort(filteredTransactions.begin(), filteredTransactions.end(), TransactionComparator::store);
+		} else if (sortKey == "P") {
+			sort(filteredTransactions.begin(), filteredTransactions.end(), TransactionComparator::price);
+		} else {
+			sort(filteredTransactions.begin(), filteredTransactions.end(), TransactionComparator::date);
+		}
+
+		cout << "Date\t\t" << "Store\t\t" << "Price" << endl;
+		int totalPrice = 0;
+		int totalTransactions = 0;
+		for (Transaction* transaction : filteredTransactions) {
+			const time_t date = transaction->getDate();
+			struct tm * dateInfo = localtime(&date);
+			
+			cout << dateInfo->tm_mday << "-" << (dateInfo->tm_mon + 1) << "-" << (dateInfo->tm_year + 1900) << "\t";
+			cout << transaction->getStore() << "\t\t";
+			cout << transaction->getPrice() << endl;
+			
+			totalPrice += transaction->getPrice();
+			totalTransactions++;
+		}
+		
+		cout << endl;
+		cout << "Total Transactions: " << totalTransactions << endl;
+		cout << "Total Money Spent: " << totalPrice << endl;
+		cout << "Average Price: " << (totalPrice / totalTransactions) << endl;
+		
+		waitForKey();
+	}
 	
 	static const string readString() {
 		string line;
@@ -122,6 +182,25 @@ public:
 		return stoi(value);
 	}
 	
+	static const time_t readDate() {
+		string yearLiteral;
+		string monthLiteral;
+		string dayLiteral;
+		getline(cin, yearLiteral, ' ');
+		getline(cin, monthLiteral, ' ');
+		getline(cin, dayLiteral);
+
+		const int year = stoi(yearLiteral);
+		const int month = stoi(monthLiteral);
+		const int day = stoi(dayLiteral);
+				
+		struct tm dateInfo = {};
+		dateInfo.tm_year = year - 1900;
+		dateInfo.tm_mon = month - 1;
+		dateInfo.tm_mday = day;
+		return mktime(&dateInfo);
+	}
+	
 private:
 	void printHeading() {
 		cout << "Groceries Insight" << endl;
@@ -133,7 +212,10 @@ private:
 		cout << "\x1B[2J\x1B[H";
 	}
 	
-	void waitForKey() {
+	void waitForKey(const bool showMessage = true) {
+		if (showMessage) {
+			cout << endl << "Press any key to continue";
+		}
 		cin.get();
 	}
 };
