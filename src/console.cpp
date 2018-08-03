@@ -216,7 +216,9 @@ public:
 		sort(filteredTransactions.begin(), filteredTransactions.end(), TransactionComparator::store);
 
 		string currentStore = filteredTransactions[0]->getStore();
-		int expenditures[intervals] = {};
+		int expenditures[intervals];
+		memset(expenditures, 0, sizeof(expenditures));
+
 		int totalPrice = 0;
 		int totalTransactions = 0;
 		for (Transaction* transaction : filteredTransactions) {
@@ -253,8 +255,6 @@ public:
 			cout << expenditures[i] << "\t";
 		}
 		cout << endl;
-
-		
 		
 		cout << endl;
 		cout << "Total Transactions: " << totalTransactions << endl;
