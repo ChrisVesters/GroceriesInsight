@@ -32,6 +32,9 @@ public:
 				case 4:
 					console.showAllTransactionsPage();
 					break;
+				case 5:
+					console.showProductHistoryPage();
+					break;
 				default:
 					break;
 			}
