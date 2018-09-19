@@ -24,27 +24,23 @@ add_subdirectory(lib/googletest)
 
 # Source Files
 set(source_files
-	src/console.cpp
 	src/product.cpp
 	src/productservice.cpp
 	src/transaction.cpp
 	src/transactionservice.cpp
+	src/ui/console/consolepage.cpp
 	# TODO: Why do I need to add this?
 	lib/ObjectSavingFramework/src/DataGatherer.cpp
 )
 set(main src/main.cpp)
-
-# Header Files
-set(header_files
-	
-)
 
 # TODO: Why does this work, but the target_include_directories not?
 include_directories(lib/ObjectSavingFramework/src)
 
 add_executable(GroceriesInsight ${main} ${source_files})
 target_include_directories(GroceriesInsight PRIVATE 
-	lib/ObjectSavingFramework/src)
+	lib/ObjectSavingFramework/src
+	src)
 target_link_libraries(GroceriesInsight ObjectSavingFramework)
 
 #######################
