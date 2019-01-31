@@ -2,7 +2,7 @@
 #   General Settings  #
 #######################
 
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.9.2)
 project(GroceriesInsight)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
