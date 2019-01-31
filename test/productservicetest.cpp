@@ -1,10 +1,6 @@
 #include "productservice.h"
 #include "gtest/gtest.h"
 
-class ProductServiceTest : public ::testing::Test {
-	
-};
-
 TEST(ProductServiceTest, AddProduct) {
 	Product product(1, "Test", "Case");
 	// TODO: we should mock product!!!

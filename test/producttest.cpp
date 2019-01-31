@@ -1,10 +1,6 @@
 #include "product.h"
 #include "gtest/gtest.h"
 
-class ProductTest : public ::testing::Test {
-	
-};
-
 TEST(ProductTest, Constructor) {
 	Product testProduct(123, "Test", "Case");
 }
