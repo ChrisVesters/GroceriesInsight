@@ -2,13 +2,19 @@
 #   General Settings  #
 #######################
 
-cmake_minimum_required(VERSION 3.5.1)
+cmake_minimum_required(VERSION 3.10)
 project(GroceriesInsight)
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
+
 
 # Compiler flags
-set (CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
+
+set(CMAKE_BUILD_TYPE RELEASE)
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+set(CMAKE_CXX_FLAGS_DEBUG "-O0 -ggdb -pg")
 
 #######################
 #      Libraries      #
@@ -47,6 +53,9 @@ target_link_libraries(GroceriesInsight ObjectSavingFramework)
 #        Tests        #
 #######################
 
+enable_testing()
+include(GoogleTest)
+
 # Create Tests
 set(test_files
 	test/producttest.cpp
@@ -61,3 +70,7 @@ target_include_directories(GroceriesInsightTest PRIVATE
 	lib
 	lib/googletest/googletest/include)
 target_link_libraries(GroceriesInsightTest gtest_main)
+target_link_libraries(GroceriesInsightTest gcov)
+
+target_compile_options(GroceriesInsightTest PRIVATE "-fprofile-arcs" "-ftest-coverage")
+gtest_discover_tests(GroceriesInsightTest)
