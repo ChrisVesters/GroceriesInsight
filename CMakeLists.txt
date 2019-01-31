@@ -73,4 +73,4 @@ target_link_libraries(GroceriesInsightTest gtest_main)
 target_link_libraries(GroceriesInsightTest gcov)
 
 target_compile_options(GroceriesInsightTest PRIVATE "-fprofile-arcs" "-ftest-coverage")
-gtest_discover_tests(GroceriesInsightTest)
+gtest_add_tests(TARGET GroceriesInsightTest)
