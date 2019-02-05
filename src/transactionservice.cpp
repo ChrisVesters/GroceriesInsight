@@ -17,7 +17,7 @@ void TransactionService::save() {
 	gatherer.startObject("transactions");
 	gatherer.addValue("size", to_string(transactions.size()));
 	
-	for (int i = 0; i < transactions.size(); ++i) {
+	for (unsigned int i = 0; i < transactions.size(); ++i) {
 		Transaction transaction = transactions[i];
 		gatherer.startObject("transaction-" + to_string(i));
 		gatherer.addValue("store", transaction.getStore());

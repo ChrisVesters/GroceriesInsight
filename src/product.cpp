@@ -7,7 +7,7 @@ Product::Product(const int barcode, const string brand, const string name) : bar
 	assert (!name.empty());
 }
 	
-const int Product::getBarcode() const {
+int Product::getBarcode() const {
 	return barcode;
 }
 

@@ -8,7 +8,7 @@
 
 using namespace std;
 
-int main(int argc, const char* argv[]) {
+int main() {
 	ProductService::load();
 	TransactionService::load();
 	

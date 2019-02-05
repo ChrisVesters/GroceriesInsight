@@ -24,7 +24,7 @@ public:
 		
 		vector<Transaction> allTransactions = TransactionService::getAllTransactions();
 		vector<Transaction*> filteredTransactions;
-		for (int i = 0; i < allTransactions.size(); ++i) {
+		for (unsigned int i = 0; i < allTransactions.size(); ++i) {
 			Transaction transaction = allTransactions[i];
 			if (transaction.getProduct().getBarcode() != barcode) {
 				continue;

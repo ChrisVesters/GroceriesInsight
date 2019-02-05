@@ -14,9 +14,9 @@ public:
 	Transaction(const string store, const time_t date, const Product product, const int price);
 	
 	const string getStore() const;
-	const time_t getDate() const;
+	time_t getDate() const;
 	const Product getProduct() const;
-	const int getPrice() const;
+	int getPrice() const;
 private:
 	const string store;
 	const time_t date;

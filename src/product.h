@@ -9,7 +9,7 @@ class Product {
 public:
 	Product(const int barcode, const string brand, const string name);
 	
-	const int getBarcode() const;
+	int getBarcode() const;
 	const string getBrand() const;
 	const string getName() const;
 private:

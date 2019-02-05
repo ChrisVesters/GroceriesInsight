@@ -3,6 +3,9 @@
 
 #include "consolepage.h"
 
+ConsolePage::~ConsolePage() {
+}
+
 const string ConsolePage::readString() {
 	string line;
 	getline(cin, line);
@@ -10,12 +13,12 @@ const string ConsolePage::readString() {
 	return line;
 }
 
-const int ConsolePage::readInteger() {
+int ConsolePage::readInteger() {
 	const string value = readString();
 	return stoi(value);
 }
 
-const time_t ConsolePage::readDate() {
+time_t ConsolePage::readDate() {
 	string yearLiteral;
 	string monthLiteral;
 	string dayLiteral;

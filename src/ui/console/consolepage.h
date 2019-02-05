@@ -8,14 +8,14 @@ using namespace std;
 class ConsolePage {
 public:
 	virtual void show() = 0;
-	
+	virtual ~ConsolePage();
 protected:
 	void printHeading();
 	void clearScreen();
 	
 	const string readString();
-	const int readInteger();
-	const time_t readDate();
+	int readInteger();
+	time_t readDate();
 	
 	void waitForKey(const bool showMessage = true);
 };

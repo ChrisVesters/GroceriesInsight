@@ -38,7 +38,7 @@ void ProductService::save() {
 	gatherer.startObject("products");
 	gatherer.addValue("size", to_string(products.size()));
 	
-	for (int i = 0; i < products.size(); ++i) {
+	for (unsigned int i = 0; i < products.size(); ++i) {
 		Product product = products[i];
 		gatherer.startObject("product-" + to_string(i));
 		gatherer.addValue("barcode", to_string(product.getBarcode()));
