@@ -47,7 +47,10 @@ add_executable(GroceriesInsight ${main} ${source_files})
 target_include_directories(GroceriesInsight PRIVATE 
 	lib/ObjectSavingFramework/src
 	src)
-target_link_libraries(GroceriesInsight ObjectSavingFramework)
+
+target_link_libraries(GroceriesInsight
+	ObjectSavingFramework
+	ncurses)
 
 #######################
 #        Tests        #
@@ -69,8 +72,11 @@ target_include_directories(GroceriesInsightTest PRIVATE
 	src
 	lib
 	lib/googletest/googletest/include)
-target_link_libraries(GroceriesInsightTest gtest_main)
-target_link_libraries(GroceriesInsightTest gcov)
+	
+target_link_libraries(GroceriesInsightTest
+	ncurses
+	gtest_main
+	gcov)
 
 target_compile_options(GroceriesInsightTest PRIVATE "-fprofile-arcs" "-ftest-coverage")
 gtest_add_tests(TARGET GroceriesInsightTest)

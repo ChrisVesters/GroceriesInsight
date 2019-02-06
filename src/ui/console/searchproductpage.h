@@ -9,18 +9,15 @@
 class SearchProductPage : public ConsolePage {
 public:
 	void show() {
-		clearScreen();
-		printHeading();
+		console.printHeading();
 		
-		cout << "Barcode:\t";
-		int barcode = readInteger();
-		cout << endl;
-		
+		int barcode = stoi(console.printInputField("Barcode"));
 		const Product product = ProductService::getProduct(barcode);
-		cout << "Brand Name:\t" << product.getBrand() << endl;
-		cout << "Product Name:\t" << product.getName() << endl;
 		
-		waitForKey();
+		console.printField("Brand Name", product.getBrand());
+		console.printField("Product Name", product.getName());
+		
+		console.waitForKey();
 	}
 };
 

@@ -24,23 +24,19 @@ public:
 	void show() {
 		int option;
 		do {
-			clearScreen();
-			printHeading();
+			console.printHeading();
 			
-			cout << "1. Add Product" << endl;
-			cout << "2. Search Product" << endl;
-			cout << "3. Add Transaction" << endl;
-			cout << "4. List All Transactions" << endl;
-			cout << "5. Show Product History" << endl;
-			cout << "6. Show Expenditure History" << endl;
-			cout << "-1. Exit" << endl;
+			vector<string> options;
+			options.push_back("Add Product");
+			options.push_back("Search Product");
+			options.push_back("Add Transaction");
+			options.push_back("List All Transactions");
+			options.push_back("Show Product History");
+			options.push_back("Show Expenditure History");
 
-			cout << endl << "Enter your choice: ";
-			option = readInteger();
-			if ((option < 0) || (option > pages.size())) {
-				// todo: invalid!!!
-			} else {
-				pages[option - 1]->show();
+			option = console.printSelectionList(options);
+			if (option >= 0 && option < pages.size()) {
+				pages[option]->show();
 			}
 		} while (option != -1);
 	}

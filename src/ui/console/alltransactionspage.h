@@ -7,25 +7,31 @@
 #include "transaction.h"
 #include "transactionservice.h"
 
-class AllTransactionsPage : public ConsolePage {
+class AllTransactionsPage: public ConsolePage {
 public:
 	void show() {
-		clearScreen();
-		printHeading();
-		
-		cout << "Date\t\t" << "Store\t" << "\t\tProduct\t\t\t" << "Price" << endl;
+		console.printHeading();
+
+		vector<string> header = {"Date", "Store", "Brand", "Name", "Price"};
+		console.printTableHeader(header);
+
 		for (const Transaction transaction : TransactionService::getAllTransactions()) {
 			const time_t date = transaction.getDate();
-			struct tm * dateInfo = localtime(&date);
 			Product product = transaction.getProduct();
-			
-			cout << dateInfo->tm_mday << "-" << (dateInfo->tm_mon + 1) << "-" << (dateInfo->tm_year + 1900) << "\t";
-			cout << transaction.getStore() << "\t\t";
-			cout << product.getBrand() << " - " << product.getName() << "\t\t";
-			cout << transaction.getPrice() << endl;
+
+			vector<string> row;
+			string dateString = convertDateToString(date);
+			row.push_back(dateString);
+			row.push_back(transaction.getStore());
+			row.push_back(product.getBrand());
+			row.push_back(product.getName());
+			char price[20];
+			sprintf(price, "%i", transaction.getPrice());
+			row.push_back(price);
+			console.printTableRow(row);
 		}
-		
-		waitForKey();
+
+		console.waitForKey();
 	}
 };
 
