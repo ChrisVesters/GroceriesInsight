@@ -13,16 +13,12 @@
 class ExpenditureHistoryPage : public ConsolePage {
 public:
 	void show() {
-		clearScreen();
-		printHeading();
+		console.printHeading();
 		
-		cout << "Start Date (YYYY MM DD):\t";
-		const time_t startDate = readDate();
-		cout << "End Date (YYYY MM DD):\t";
-		const time_t endDate = readDate();
-		cout << "Group By:\t";
-		const string groupKey = readString();
-		cout << endl << endl;
+		const time_t startDate = convertDate(console.printInputField("Start Date"));
+		const time_t endDate = convertDate(console.printInputField("End Date"));
+		string groupKey = console.printInputField("Group By");
+		console.printNewLine(2);
 		
 		
 		struct tm startInfo = *localtime(&startDate);
@@ -35,11 +31,14 @@ public:
 			intervals = ((endInfo.tm_year - startInfo.tm_year) * 12) + (endInfo.tm_mon - startInfo.tm_mon) + 1; 
 		}
 		
-		cout << "Store\t\t|";
+		vector<string> header;
+		header.push_back("Store");
 		for (int i = 0; i < intervals; ++i) {
-			cout << i << "\t";
+			char value[20];
+			sprintf(value, "%i", i);
+			header.push_back(value);
 		}
-		cout << endl;
+		console.printTableHeader(header);
 		
 		vector<Transaction> allTransactions = TransactionService::getAllTransactions();
 		vector<Transaction*> filteredTransactions;
@@ -63,12 +62,15 @@ public:
 		int totalTransactions = 0;
 		for (Transaction* transaction : filteredTransactions) {
 			if (transaction->getStore() != currentStore) {
+				vector<string> row;
+				row.push_back(currentStore);
 				// Print accumulated results + reset;
-				cout << currentStore << "\t\t|";
 				for (int i = 0; i < intervals; ++i) {
-					cout << expenditures[i] << "\t";
+					char value[20];
+					sprintf(value, "%i", expenditures[i]);
+					row.push_back(value);
 				}
-				cout << endl;
+				console.printTableRow(row);
 				
 				currentStore = transaction->getStore();
 				memset(expenditures, 0, sizeof(expenditures));
@@ -90,18 +92,27 @@ public:
 		}
 		
 		// Print last store!
-		cout << currentStore << "\t\t|";
+		vector<string> row;
+		row.push_back(currentStore);
 		for (int i = 0; i < intervals; ++i) {
-			cout << expenditures[i] << "\t";
+			char value[20];
+			sprintf(value, "%i", expenditures[i]);
+			row.push_back(value);
 		}
-		cout << endl;
+		console.printTableRow(row);
+		console.printNewLine();
 		
-		cout << endl;
-		cout << "Total Transactions: " << totalTransactions << endl;
-		cout << "Total Money Spent: " << totalPrice << endl;
-		cout << "Average Spent: " << (totalPrice / totalTransactions) << endl;
+		char value[20];
+		sprintf(value, "%i", totalTransactions);
+		console.printField("Total Transactions", value);
 
-		waitForKey();
+		sprintf(value, "%i", totalPrice);
+		console.printField("Total Money Spent", value);
+
+		sprintf(value, "%i", (totalPrice / totalTransactions));
+		console.printField("Average Price", value);
+
+		console.waitForKey();
 	}
 };
 

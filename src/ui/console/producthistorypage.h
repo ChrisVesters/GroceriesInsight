@@ -9,18 +9,13 @@
 class ProductHistoryPage : public ConsolePage {
 public:
 	void show() {
-		clearScreen();
-		printHeading();
+		console.printHeading();
 		
-		cout << "Product Barcode:\t";
-		const int barcode = readInteger();
-		cout << "Start Date (YYYY MM DD):\t";
-		const time_t startDate = readDate();
-		cout << "End Date (YYYY MM DD):\t";
-		const time_t endDate = readDate();
-		cout << "Sort By:\t";
-		const string sortKey = readString();
-		cout << endl << endl;
+		int barcode = stoi(console.printInputField("Product Barcode"));
+		const time_t startDate = convertDate(console.printInputField("Start Date"));
+		const time_t endDate = convertDate(console.printInputField("End Date"));
+		string sortKey = console.printInputField("Sort By");
+
 		
 		vector<Transaction> allTransactions = TransactionService::getAllTransactions();
 		vector<Transaction*> filteredTransactions;
@@ -45,27 +40,40 @@ public:
 			sort(filteredTransactions.begin(), filteredTransactions.end(), TransactionComparator::date);
 		}
 
-		cout << "Date\t\t" << "Store\t\t" << "Price" << endl;
+		console.printNewLine(2);
+		vector<string> header = {"Date", "Store", "Price"};
+		console.printTableHeader(header);
+
 		int totalPrice = 0;
 		int totalTransactions = 0;
 		for (Transaction* transaction : filteredTransactions) {
 			const time_t date = transaction->getDate();
-			struct tm * dateInfo = localtime(&date);
 			
-			cout << dateInfo->tm_mday << "-" << (dateInfo->tm_mon + 1) << "-" << (dateInfo->tm_year + 1900) << "\t";
-			cout << transaction->getStore() << "\t\t";
-			cout << transaction->getPrice() << endl;
+			vector<string> row;
+			row.push_back(convertDateToString(date));
+			row.push_back(transaction->getStore());
+			char value[20];
+			sprintf(value, "%i", transaction->getPrice());
+			row.push_back(value);
 			
 			totalPrice += transaction->getPrice();
 			totalTransactions++;
+
+			console.printTableRow(row);
 		}
+		console.printNewLine();
+
+		char value[20];
+		sprintf(value, "%i", totalTransactions);
+		console.printField("Total Transactions", value);
+
+		sprintf(value, "%i", totalPrice);
+		console.printField("Total Money Spent", value);
+
+		sprintf(value, "%i", (totalPrice / totalTransactions));
+		console.printField("Average Price", value);
 		
-		cout << endl;
-		cout << "Total Transactions: " << totalTransactions << endl;
-		cout << "Total Money Spent: " << totalPrice << endl;
-		cout << "Average Price: " << (totalPrice / totalTransactions) << endl;
-		
-		waitForKey();
+		console.waitForKey();
 	}
 };
 

@@ -3,33 +3,17 @@
 
 #include "consolepage.h"
 
+Console ConsolePage::console;
+
 ConsolePage::~ConsolePage() {
 }
 
-const string ConsolePage::readString() {
-	string line;
-	getline(cin, line);
-	
-	return line;
-}
+time_t ConsolePage::convertDate(string dateString) {
+	// TODO: check for valid string.
+	int day = stoi(dateString.substr(0, 2));
+	int month = stoi(dateString.substr(3, 2));
+	int year = stoi(dateString.substr(6, 4));
 
-int ConsolePage::readInteger() {
-	const string value = readString();
-	return stoi(value);
-}
-
-time_t ConsolePage::readDate() {
-	string yearLiteral;
-	string monthLiteral;
-	string dayLiteral;
-	getline(cin, yearLiteral, ' ');
-	getline(cin, monthLiteral, ' ');
-	getline(cin, dayLiteral);
-
-	const int year = stoi(yearLiteral);
-	const int month = stoi(monthLiteral);
-	const int day = stoi(dayLiteral);
-			
 	struct tm dateInfo = {};
 	dateInfo.tm_year = year - 1900;
 	dateInfo.tm_mon = month - 1;
@@ -37,14 +21,11 @@ time_t ConsolePage::readDate() {
 	return mktime(&dateInfo);
 }
 
-void ConsolePage::printHeading() {
-	cout << "Groceries Insight" << endl;
-	cout << "=================" << endl << endl;
-}
-
-void ConsolePage::clearScreen() {
-	// CSI[2J clears screen, CSI[H moves the cursor to top-left corner
-	cout << "\x1B[2J\x1B[H";
+string ConsolePage::convertDateToString(time_t date) {
+	struct tm * dateInfo = localtime(&date);
+	char dateString[12];
+	sprintf(dateString, "%2i/%2i/%4i", dateInfo->tm_mday, (dateInfo->tm_mon + 1), (dateInfo->tm_year + 1900));
+	return string(dateString);
 }
 
 void ConsolePage::waitForKey(const bool showMessage) {
