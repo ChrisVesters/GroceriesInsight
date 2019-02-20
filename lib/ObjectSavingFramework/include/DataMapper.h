@@ -8,6 +8,7 @@ class DataMapper {
 public:
 	virtual const DataGatherer load() = 0;
 	virtual void save(const DataGatherer data) = 0;
+	virtual ~DataMapper() {};
 };
 
 #endif

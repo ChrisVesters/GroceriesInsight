@@ -20,6 +20,8 @@ public:
 		return vector<Node*>();
 	}
 	
+	virtual ~Node() {
+	}
 protected:
 	Node(string name) : name(name) {};
 	virtual string getValueString() const = 0;
@@ -61,6 +63,8 @@ public:
 				return node->getValue();
 			}
 		}
+
+		return nullptr;
 	}
 	
 	Node * getChild(const string name) {
@@ -69,6 +73,8 @@ public:
 				return node;
 			}
 		}
+
+		return nullptr;
 	}
 	
 	vector<Node*> getChildren() const {
@@ -83,7 +89,7 @@ public:
 	}
 protected:
 	string getValueString() const {
-		return "";
+		return string();
 	}
 
 private:

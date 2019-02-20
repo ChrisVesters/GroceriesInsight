@@ -1,4 +1,4 @@
-#include "JsonMapper.cpp"
+#include "JsonMapper.h"
 #include "transactionservice.h"
 #include "productservice.h"
 

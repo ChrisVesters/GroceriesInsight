@@ -2,14 +2,16 @@
 #   General Settings  #
 #######################
 
-cmake_minimum_required(VERSION 3.5.1)
+cmake_minimum_required(VERSION 3.9.2)
 project(ObjectSavingFramework)
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-
 # Compiler flags
-set (CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
 
+set(CMAKE_BUILD_TYPE DEBUG)
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+set(CMAKE_CXX_FLAGS_DEBUG "-O0 -ggdb -pg")
 
 #######################
 #     Executable      #
@@ -26,6 +28,8 @@ set(source_files
 set(main example/Examples.cpp)
 
 add_library(ObjectSavingFramework ${source_files})
+target_include_directories(ObjectSavingFramework PRIVATE
+	include)
 
 
 #######################
@@ -49,10 +53,10 @@ set(test_files
 #      Examples       #
 #######################
 
-option(EXAMPLES "Should an executable example be build" OFF)
+option(EXAMPLES "Should an executable example be build" ON)
 if (EXAMPLES)
 	add_executable(ObjectSavingFrameworkExample ${main})
-	target_include_directories(ObjectSavingFrameworkExample PRIVATE 
-		src)
 	target_link_libraries(ObjectSavingFrameworkExample ObjectSavingFramework)
+	target_include_directories(ObjectSavingFrameworkExample PRIVATE
+		include)
 endif (EXAMPLES)

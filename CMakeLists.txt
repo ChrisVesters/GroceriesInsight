@@ -20,6 +20,7 @@ set(CMAKE_CXX_FLAGS_DEBUG "-O0 -ggdb -pg")
 #      Libraries      #
 #######################
 
+SET(EXAMPLES OFF CACHE BOOL "Disable Library Examples")
 add_subdirectory(lib/ObjectSavingFramework)
 add_subdirectory(lib/googletest)
 
@@ -35,18 +36,13 @@ set(source_files
 	src/transaction.cpp
 	src/transactionservice.cpp
 	src/ui/console/consolepage.cpp
-	# TODO: Why do I need to add this?
-	lib/ObjectSavingFramework/src/DataGatherer.cpp
 )
 set(main src/main.cpp)
 
-# TODO: Why does this work, but the target_include_directories not?
-include_directories(lib/ObjectSavingFramework/src)
-
 add_executable(GroceriesInsight ${main} ${source_files})
 target_include_directories(GroceriesInsight PRIVATE 
-	lib/ObjectSavingFramework/src
-	src)
+	src
+	lib/ObjectSavingFramework/include)
 
 target_link_libraries(GroceriesInsight
 	ObjectSavingFramework
@@ -70,10 +66,11 @@ set(test_files
 add_executable(GroceriesInsightTest ${source_files} ${test_files})
 target_include_directories(GroceriesInsightTest PRIVATE 
 	src
-	lib
+	lib/ObjectSavingFramework/include
 	lib/googletest/googletest/include)
 	
 target_link_libraries(GroceriesInsightTest
+	ObjectSavingFramework
 	ncurses
 	gtest_main
 	gcov)
