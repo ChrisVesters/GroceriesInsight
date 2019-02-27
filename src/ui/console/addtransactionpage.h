@@ -13,13 +13,16 @@ public:
 	void show() {
 		console.printHeading();
 
-		string storeName = console.printInputField("Store Name");
-		string dateString = console.printInputField("Date");
-		time_t date = convertDate(dateString);
+		console.printInputField("Store Name");
+		string storeName = console.readString();
+		console.printInputField("Date");
+		time_t date = console.readDate();
 
-		int barcode = stoi(console.printInputField("Product Barcode"));
+		console.printInputField("Product Barcode");
+		int barcode = console.readInteger();
 		Product product = ProductService::getProduct(barcode);
-		int price = stoi(console.printInputField("Product Price"));
+		console.printInputField("Product Price");
+		int price = console.readInteger();
 
 		Transaction transaction(storeName, date, product, price);
 		TransactionService::addTransaction(transaction);

@@ -15,11 +15,15 @@ public:
 	void show() {
 		console.printHeading();
 		
-		const time_t startDate = convertDate(console.printInputField("Start Date"));
-		const time_t endDate = convertDate(console.printInputField("End Date"));
-		string groupKey = console.printInputField("Group By");
-		console.printNewLine(2);
+		console.printInputField("Start Date");
+		const time_t startDate = console.readDate();
+
+		console.printInputField("End Date");
+		const time_t endDate = console.readDate();
 		
+		console.printInputField("Group By");
+		string groupKey = console.readString();
+		console.printNewLine(2);
 		
 		struct tm startInfo = *localtime(&startDate);
 		struct tm endInfo = *localtime(&endDate);

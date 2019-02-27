@@ -11,9 +11,12 @@ public:
 	void show() {
 		console.printHeading();
 
-		string brandName = console.printInputField("Brand Name");
-		string productName = console.printInputField("Product Name");
-		int barcode = stoi(console.printInputField("Barcode"));
+		console.printInputField("Brand Name");
+		string brandName = console.readString();
+		console.printInputField("Product Name");
+		string productName = console.readString();
+		console.printInputField("Barcode");
+		int barcode = console.readInteger();
 
 		const Product product(barcode, brandName, productName);
 		ProductService::addProduct(product);
