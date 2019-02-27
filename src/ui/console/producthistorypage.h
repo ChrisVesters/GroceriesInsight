@@ -11,10 +11,17 @@ public:
 	void show() {
 		console.printHeading();
 		
-		int barcode = stoi(console.printInputField("Product Barcode"));
-		const time_t startDate = convertDate(console.printInputField("Start Date"));
-		const time_t endDate = convertDate(console.printInputField("End Date"));
-		string sortKey = console.printInputField("Sort By");
+		console.printInputField("Product Barcode");
+		int barcode = console.readInteger();
+
+		console.printInputField("Start Date");
+		const time_t startDate = console.readDate();
+
+		console.printInputField("End Date");
+		const time_t endDate = console.readDate();
+
+		console.printInputField("Sort By");
+		string sortKey = console.readString();
 
 		
 		vector<Transaction> allTransactions = TransactionService::getAllTransactions();

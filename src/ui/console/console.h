@@ -30,6 +30,15 @@ public:
 		erase();
 	}
 
+	void clearField() {
+		int originY;
+		int originX;
+		getyx(main, originY, originX);
+		move(originY - 1, 20);
+		clrtoeol();
+		refresh();
+	}
+
 	int printSelectionList(const std::vector<std::string> options,
 			const unsigned int defaultOption = 0) {
 		// TODO: list can not be empty!!!
@@ -82,7 +91,7 @@ public:
 	}
 
 	// TODO: show all input fields at once!!!
-	std::string printInputField(std::string label) {
+	void printInputField(std::string label) {
 		echo();
 		addstr(label.c_str());
 		addstr(":");
@@ -92,11 +101,6 @@ public:
 		getyx(main, originY, originX);
 		move(originY, 20);
 		refresh();
-
-		char buffer[100];
-		getnstr(buffer, 100);
-
-		return std::string(buffer);
 	}
 
 	void printField(std::string label, std::string value) {
@@ -149,6 +153,51 @@ public:
 		getyx(main, y, x);
 		move(y + amount, 0);
 		refresh();
+	}
+
+	// Read the value from the input field.
+	std::string readString() {
+		while (true) {
+			char buffer[100];
+			getnstr(buffer, 100);
+
+			std::string value = std::string(buffer);
+			if (value.empty()) {
+				clearField();
+			} else {
+				return value;
+			}
+		}
+		
+	}
+
+	int readInteger() {
+		while (true) {
+			try {
+				return stoi(readString());
+			} catch (...) {
+				clearField();
+			}
+		}
+	}
+
+	time_t readDate() {
+		while (true) {
+			try {
+				std::string dateString = readString();
+				int day = stoi(dateString.substr(0, 2));
+				int month = stoi(dateString.substr(3, 2));
+				int year = stoi(dateString.substr(6, 4));
+
+				struct tm dateInfo = {};
+				dateInfo.tm_year = year - 1900;
+				dateInfo.tm_mon = month - 1;
+				dateInfo.tm_mday = day;
+				return mktime(&dateInfo);
+			} catch (...) {
+				clearField();
+			}
+		}
 	}
 
 

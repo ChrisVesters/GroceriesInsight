@@ -11,7 +11,8 @@ public:
 	void show() {
 		console.printHeading();
 		
-		int barcode = stoi(console.printInputField("Barcode"));
+		console.printInputField("Barcode");
+		int barcode = console.readInteger();
 		const Product product = ProductService::getProduct(barcode);
 		
 		console.printField("Brand Name", product.getBrand());
