@@ -44,6 +44,13 @@ void ProductService::save() {
 		gatherer.addValue("barcode", to_string(product.getBarcode()));
 		gatherer.addValue("brand", product.getBrand());
 		gatherer.addValue("name", product.getName());
+
+		UnitSize size = product.getUnitSize();
+		gatherer.startObject("UnitSize");
+		gatherer.addValue("quantity", to_string(size.getQuantity()));
+		gatherer.addValue("unit", size.getUnit());
+		gatherer.endObject("UnitSize");
+
 		gatherer.endObject("product-" + to_string(i));
 	}
 	gatherer.endObject("products");
@@ -64,11 +71,17 @@ void ProductService::load() {
 		const int barcode = stoi(gatherer.getValue("barcode"));
 		const string brand = gatherer.getValue("brand");
 		const string name = gatherer.getValue("name");
+
+		gatherer.loadObject("UnitSize");
+		const long quantity = stoi(gatherer.getValue("quantity"));
+		const string unit = gatherer.getValue("unit");
+		gatherer.releaseObject("UnitSize");
+		gatherer.releaseObject("product-" + to_string(i));
 		
-		Product product(barcode, brand, name);
+		UnitSize size(quantity, unit);
+		Product product(barcode, brand, name, size);
 		addProduct(product);
 		
-		gatherer.releaseObject("product-" + to_string(i));
 	}
 	gatherer.releaseObject("products");
 }

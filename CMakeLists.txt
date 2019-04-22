@@ -35,6 +35,7 @@ set(source_files
 	src/productservice.cpp
 	src/transaction.cpp
 	src/transactionservice.cpp
+	src/UnitSize.cpp
 	src/ui/console/consolepage.cpp
 )
 set(main src/main.cpp)

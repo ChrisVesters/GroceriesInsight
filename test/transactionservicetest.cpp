@@ -7,7 +7,8 @@ TEST(TransactionServiceTest, AddTransaction) {
 	string store = "Colruyt";
 	time_t date;
 	time(&date);
-	Product product(123, "Test", "Case");
+	UnitSize unit(100, "g");
+	Product product(123, "Test", "Case", unit);
 	int price = 150;
 
 	Transaction transaction(store, date, product, price);
@@ -23,7 +24,8 @@ TEST(TransactionServiceTest, GetTransactionsAdded) {
 	string store = "Colruyt";
 	time_t date;
 	time(&date);
-	Product product(123, "Test", "Case");
+	UnitSize unit(100, "g");
+	Product product(123, "Test", "Case", unit);
 	int price = 150;
 
 	Transaction transaction(store, date, product, price);
