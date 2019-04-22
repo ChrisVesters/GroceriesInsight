@@ -17,6 +17,9 @@ public:
 		
 		console.printField("Brand Name", product.getBrand());
 		console.printField("Product Name", product.getName());
+
+		std::string unitSize = to_string(product.getUnitSize());
+		console.printField("Unit Size", unitSize);
 		
 		console.waitForKey();
 	}
